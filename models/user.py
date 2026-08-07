@@ -1,9 +1,15 @@
 import re
 
+from utils.utils import add_data
+
 class User:
+    id = 0
     def __init__(self, name):
+        self.id = User.id
         self.name = name
         self. projects = []
+        User.id += 1
+        add_data("users",self.__dict__)
 
     @property
     def name(self):
