@@ -1,7 +1,8 @@
-from utils.utils import add_data
+from utils.utils import add_data, edit_data
 
 class Project:
     id = 0
+    TABLE = "projects"
     def __init__(self, name, due_date):
         self.id = Project.id
         self.name = name
@@ -10,23 +11,25 @@ class Project:
         self.completed = False
         self.due_date = due_date
         Project.id += 1
-        add_data("projects",self.__dict__)
+        add_data(Project.TABLE,self.__dict__)
 
     def add_user(self,user):
         if user in self.users:
             print(f"User '{user}' already assigned to this project.")
         else:
             self.users.append(user)
-            se
+            edit_data(Project.TABLE,self.id,{"users":self.users})            
 
     def complete_project(self):
         self.completed = True
+        edit_data(Project.TABLE,self.id,{"completed":self.completed})
 
     def add_task(self,task):
         if task in self.tasks:
             print(f"Task '{task}' already exists")
         else:
             self.tasks.append(task)
+            edit_data(Project.TABLE,self.id,{"tasks":self.tasks})
 
     def assign_task(self,task,user):
         if user not in self.users:

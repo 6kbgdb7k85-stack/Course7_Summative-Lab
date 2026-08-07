@@ -1,38 +1,39 @@
 import csv
 import os
+import json
 
 import pandas as pd
 
+JSON_INDENT = 2
+
 def add_data(table,data):
-    filename = f"data/{table}.csv"
+    filename = f"data/{table}.json"
     row = pd.DataFrame([data])
     if os.path.exists(filename):
-        row.to_csv(filename, mode="a", header=False, index=False)
+        table_data = pd.read_json(filename, orient="records")
+        new_data = pd.concat([table_data, row], ignore_index=True)
+        new_data.to_json(filename, orient="records", indent=JSON_INDENT)
     else:
-        row.to_csv(filename, index=False)       
+        row.to_json(filename, orient="records", indent=JSON_INDENT)       
     print(f"Entry saved to data/{table}.csv")
     return filename
 
-def edit_data(table,row_id,change_data):
-    filename = f"data/{table}.csv"
-    id_key = row_id["id"]
-    id_value = row_id["value"]
+def edit_data(table,change_id,change_data):
+    filename = f"data/{table}.json"
     try:
-        table = pd.read_csv(filepath_or_buffer=filename)
-        change_keys = list(change_data.keys())
-        change_vals = list(change_data.values())
-        table.loc[table[id_key] == id_value, change_keys] = change_vals
-        table.to_csv(filename, index=False)          
+        table = pd.read_json(filename)
+        index = table.index[table["id"] == change_id][0]
+        for key,val in change_data.items():
+            table.at[index, key] = val
+        table.to_json(filename, orient="records", indent=JSON_INDENT)          
     except FileNotFoundError:
         print(f"Table '{table}' not found")
 
-def remove_data(table,row_id):
-    filename = f"data/{table}.csv"
-    id_key = row_id["id"]
-    id_value = row_id["value"]
+def remove_data(table,delete_id):
+    filename = f"data/{table}.json"
     try:
-        table = pd.read_csv(filepath_or_buffer=filename)
-        table = table[table[id_key] != id_value]
-        table.to_csv(filename, index=False)          
+        table = pd.read_json(filename)
+        table = table[table["id"] != delete_id]
+        table.to_json(filename, orient="records", indent=JSON_INDENT)          
     except FileNotFoundError:
         print(f"Table '{table}' not found")
