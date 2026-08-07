@@ -1,10 +1,14 @@
-
+from utils.utils import add_data
 
 class Task:
+    id = 0
     def __init__(self, title):
+        self.id = Task.id
         self.title = title
         self.completed = False
         self.assigned_to = None
+        Task.id += 1
+        add_data("tasks",self.__dict__)
 
     def complete_task(self):
         self.completed = True

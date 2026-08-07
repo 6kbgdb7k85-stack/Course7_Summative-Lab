@@ -1,16 +1,23 @@
+from utils.utils import add_data
+
 class Project:
+    id = 0
     def __init__(self, name, due_date):
+        self.id = Project.id
         self.name = name
         self.tasks = []
         self.users = []
         self.completed = False
         self.due_date = due_date
+        Project.id += 1
+        add_data("projects",self.__dict__)
 
     def add_user(self,user):
         if user in self.users:
             print(f"User '{user}' already assigned to this project.")
         else:
             self.users.append(user)
+            se
 
     def complete_project(self):
         self.completed = True
