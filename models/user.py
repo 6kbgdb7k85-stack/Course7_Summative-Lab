@@ -3,12 +3,10 @@ import re
 from utils.utils import add_data
 
 class User:
-    id = 0
-    def __init__(self, name):
-        self.id = User.id
+    def __init__(self, name, id = None, projects = []):
         self.name = name
-        self. projects = []
-        User.id += 1
+        self.projects = projects
+        self.id = id
         add_data("users",self.__dict__)
 
     @property

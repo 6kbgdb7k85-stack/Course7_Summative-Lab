@@ -1,17 +1,16 @@
-from utils.utils import add_data, edit_data
+from utils.utils import add_data, edit_data, fetch_data
 
 class Project:
-    id = 0
     TABLE = "projects"
-    def __init__(self, name, due_date):
-        self.id = Project.id
+    def __init__(self, name, due_date, tasks = [], users = [], completed = False, id = None, add_on_create = True):
         self.name = name
-        self.tasks = []
-        self.users = []
-        self.completed = False
+        self.tasks = tasks
+        self.users = users
+        self.completed = completed
         self.due_date = due_date
-        Project.id += 1
-        add_data(Project.TABLE,self.__dict__)
+        self.id = id
+        if add_on_create:
+            add_data(Project.TABLE,self.__dict__)
 
     def add_user(self,user):
         if user in self.users:
@@ -43,5 +42,4 @@ class Project:
                     return
                 else:
                     print("Please enter 'y' or 'n'")
-        #TODO fetch task from data and attach
         print(f"Task '{task}' assigned to '{user}'")

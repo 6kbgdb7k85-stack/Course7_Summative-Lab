@@ -1,14 +1,12 @@
 import pytest
 import os
-import csv
-import ast
 import json
 
 from utils.utils import add_data, edit_data, remove_data
 
 @pytest.fixture
 def test_data():
-    return {"id":0,"testkey1":"testval1","testkey2":"testval2","testkey3":['testlist1','testlist2']}
+    return {"id":None,"testkey1":"testval1","testkey2":"testval2","testkey3":['testlist1','testlist2']}
 
 def test_add_data(test_data):
     filename = add_data("test",test_data)
@@ -29,7 +27,6 @@ def test_edit_data(test_data):
     new_data = test_data.copy()
     new_data["testkey2"] = "changedval"
     test_data["testkey1"] = "testval1B"
-    test_data["id"] = "1"
     add_data("test", test_data)
     edit_data("test",0,{"testkey2":new_data["testkey2"]})
     with open(filename,"r") as file:

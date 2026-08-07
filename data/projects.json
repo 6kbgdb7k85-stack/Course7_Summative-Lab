@@ -1,6 +1,5 @@
 [
   {
-    "id":0,
     "name":"test-project",
     "tasks":[
 
@@ -9,10 +8,10 @@
 
     ],
     "completed":true,
-    "due_date":"01\/02\/27"
+    "due_date":"01\/02\/27",
+    "id":0
   },
   {
-    "id":1,
     "name":"test-project",
     "tasks":[
       "test-task"
@@ -21,10 +20,10 @@
 
     ],
     "completed":false,
-    "due_date":"01\/02\/27"
+    "due_date":"01\/02\/27",
+    "id":1
   },
   {
-    "id":2,
     "name":"test-project",
     "tasks":[
       "test-task"
@@ -33,30 +32,31 @@
 
     ],
     "completed":false,
-    "due_date":"01\/02\/27"
+    "due_date":"01\/02\/27",
+    "id":2
   },
   {
-    "id":3,
     "name":"test-project",
     "tasks":[
-
+      "test-task"
     ],
     "users":[
       "test-user"
     ],
     "completed":false,
-    "due_date":"01\/02\/27"
+    "due_date":"01\/02\/27",
+    "id":3
   },
   {
-    "id":4,
     "name":"test-project",
     "tasks":[
-
+      "test-task"
     ],
     "users":[
       "test-user"
     ],
     "completed":false,
-    "due_date":"01\/02\/27"
+    "due_date":"01\/02\/27",
+    "id":4
   }
 ]

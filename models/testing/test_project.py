@@ -4,7 +4,7 @@ from models.project import Project
 
 @pytest.fixture
 def test_project():
-    return Project('test-project','01/02/27')
+    return Project('test-project','01/02/27',add_on_create=True)
 
 def test_complete_project(test_project):
     test_project.complete_project()
