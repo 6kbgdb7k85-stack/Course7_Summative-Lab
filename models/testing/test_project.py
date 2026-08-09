@@ -8,9 +8,10 @@ from utils.utils import add_data
 
 @pytest.fixture
 def test_data():
-    test_user = User("project test user",debug=True)
-    test_task = Task("project test task",debug=True)
-    test_project = Project("test-project","01-02-30", debug=True)
+    #DEBUG added to test entry names to easily find in data if cleanup fails due to error in testing
+    test_user = User("DEBUG project test user",debug=True)
+    test_task = Task("DEBUG project test task",debug=True)
+    test_project = Project("DEBUG test-project","01/02/2030", debug=True)
 
     yield (test_project, test_task, test_user)
 

@@ -1,19 +1,33 @@
-from utils.utils import add_data, edit_data, fetch_data, remove_data
+import re
+from datetime import datetime
 
 from termcolor import cprint, colored
 
+from utils.utils import add_data, edit_data, fetch_data, remove_data
+
 class Project:
     TABLE = "projects"
-    def __init__(self, name, due_date, tasks = None, users = None, completed = False, id = None, debug = False):
+    def __init__(self, name, _due_date, tasks = None, users = None, completed = False, id = None, debug = False):
         self.name = name
         self.tasks = [] if tasks is None else tasks
         self.users = [] if users is None else users
         self.completed = completed
-        self.due_date = due_date
+        self.due_date = _due_date
         self.id = id
         
         if debug:
             add_data(Project.TABLE,self.__dict__)
+
+    @property
+    def due_date(self):
+        return self._due_date
+    @due_date.setter
+    def due_date(self,value):
+        if not datetime.strptime(value,"%m/%d/%Y").date():
+            raise ValueError(colored("due_date must be a valid date formatted mm/dd/yyyy"))
+        else:
+            self._due_date = value
+
 
     #add user to project and vice versa
     def add_user(self,user):
