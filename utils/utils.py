@@ -39,7 +39,6 @@ def edit_data(table,change_id,change_data):
             if key == "id":
                 cprint("'id' is immutable","red")
             else:
-                print('test')
                 table_data.at[index, key] = val
         table_data.to_json(filename, orient="records", indent=JSON_INDENT)
     except FileNotFoundError:

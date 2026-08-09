@@ -23,8 +23,7 @@ def test_data():
         del test_project
 
 def test_add_project(test_data):
-    test_user = test_data[2]
-    test_project = test_data[0]
+    test_project, test_task, test_user = test_data
     test_user.add_project(test_project)
     assert test_project.id in test_user.projects
 
@@ -35,8 +34,7 @@ def test_invalid_name_raises_type_error():
 
 
 def test_remove_project(test_data):
-    test_user = test_data[2]
-    test_project = test_data[0]
+    test_project, test_task, test_user = test_data
     test_user.add_project(test_project)
 
     test_user.remove_project(test_project)
@@ -45,8 +43,7 @@ def test_remove_project(test_data):
 
 
 def test_add_task_duplicate(test_data, capsys):
-    test_user = test_data[2]
-    test_task = test_data[1]
+    test_project, test_task, test_user = test_data
     test_user.add_task(test_task)
     test_user.add_task(test_task)
 
@@ -56,11 +53,26 @@ def test_add_task_duplicate(test_data, capsys):
 
 
 def test_remove_task(test_data):
-    test_user = test_data[2]
-    test_task = test_data[1]
+    test_project, test_task, test_user = test_data
     test_user.add_task(test_task)
 
     test_user.remove_task(test_task)
 
     assert test_task.id not in test_user.tasks
     assert test_task.assigned_to == -1
+
+def test_get_assigned_tasks(test_data, capsys):
+    test_project, test_task, test_user = test_data
+    test_user.add_task(test_task)
+    test_user.get_assigned_tasks()
+    logs = capsys.readouterr()
+    expected_log = {'title': test_task.title, 'completed': False, 'project': "None"}
+    assert str(expected_log) in logs.out.strip()
+
+def test_get_assigned_projects(test_data, capsys):
+    test_project, test_task, test_user = test_data
+    test_user.add_project(test_project)
+    test_user.get_assigned_projects()
+    logs = capsys.readouterr()
+    expected_log = {"name":test_project.name, "due_date":test_project.due_date, "completed":str(test_project.completed)}
+    assert str(expected_log) in logs.out.strip()

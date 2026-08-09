@@ -56,6 +56,29 @@ class User:
         task.assign_user(-1)
         edit_data(User.TABLE,self.id,{"tasks":self.tasks})
 
+    #get tasks assigned to user in user readable format
+    def get_assigned_tasks(self):
+        from models.task import Task
+        from models.project import Project
+        for task in self.tasks:
+            task = fetch_data(Task.TABLE,task).__dict__
+            project = fetch_data(Project.TABLE,task["project"])
+            if project:
+                task["project"] = project.__dict__["name"]
+            else:
+                task["project"] = "None"
+            del task["id"]
+            del task["assigned_to"]
+            print(task)
+
+    #get name and due dates of projects user is assigned to
+    def get_assigned_projects(self):
+        from models.task import Task
+        from models.project import Project
+        for project in self.projects:
+            project = fetch_data(Project.TABLE,project).__dict__
+            print({"name":project["name"],"due_date": project["due_date"], "completed":str(project["completed"])})
+
     #delete user and remove links to projects and tasks
     def delete(self):
         from models.project import Project
