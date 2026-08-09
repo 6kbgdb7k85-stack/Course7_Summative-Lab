@@ -119,8 +119,6 @@ def complete(args):
     if not args.p and not args.t:
         cprint("Must use either '-p' or '-t'","red")
         return
-    from models.project import Project
-    from models.task import Task
     if args.p:
         table = Project.TABLE
         key = "name"
@@ -135,6 +133,23 @@ def complete(args):
             entry.complete_project()
         else:
             entry.complete_task()
+#get tasks assigned to user
+def get_user_tasks(args):
+    if args.id:
+        key = "id"
+    else:
+        key = "_name"
+    user = fetch_data(table=User.TABLE, lookup_key=key, lookup_value=parse_int(args.user))
+    user.get_assigned_tasks()
+
+#get projects assigned to user
+def get_user_projects(args):
+    if args.id:
+        key = "id"
+    else:
+        key = "_name"
+    user = fetch_data(table=User.TABLE,lookup_key=key, lookup_value=parse_int(args.user))
+    user.get_assigned_projects()
 
 def main():
     parser = argparse.ArgumentParser(description = "Project Manager CLI")
@@ -201,6 +216,18 @@ def main():
     complete_parser.add_argument("-t",help="Use for Task", action="store_true")
     complete_parser.add_argument("-id",help="Use if 'entry' is ID",action="store_true")
     complete_parser.set_defaults(func=complete)
+
+    #get_user_tasks
+    get_user_tasks_parser = subparser.add_parser("user-tasks",help="Get Task details for User")
+    get_user_tasks_parser.add_argument("user",help="User Name or ID")
+    get_user_tasks_parser.add_argument("-id",help="Use if arg 'user' is ID", action="store_true")
+    get_user_tasks_parser.set_defaults(func=get_user_tasks)
+
+    #get_user_projects
+    get_user_projects_parser = subparser.add_parser("user-projects",help="Get Project details for User")
+    get_user_projects_parser.add_argument("user",help="User Name or ID")
+    get_user_projects_parser.add_argument("-id",help="Use if arg 'user' is ID", action="store_true")
+    get_user_projects_parser.set_defaults(func=get_user_projects)
 
     args = parser.parse_args()
 
