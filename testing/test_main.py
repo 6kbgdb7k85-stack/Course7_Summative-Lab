@@ -32,12 +32,12 @@ def test_create_entry_for_project_saves_project(monkeypatch):
     saved = {}
     monkeypatch.setattr(main, "add_data", lambda table, entry: saved.setdefault("payload", {"table": table, "entry": entry}))
 
-    args = SimpleNamespace(force=False, type="project", name="Demo Project", date="2026-09-01")
+    args = SimpleNamespace(force=False, type="project", name="Demo Project", date="09/01/2026")
     main.create_entry(args)
 
     assert saved["payload"]["table"] == "projects"
     assert saved["payload"]["entry"]["name"] == "Demo Project"
-    assert saved["payload"]["entry"]["due_date"] == "2026-09-01"
+    assert saved["payload"]["entry"]["_due_date"] == "09/01/2026"
 
 
 def test_assign_task_calls_project_assign_task(monkeypatch):

@@ -77,7 +77,7 @@ class User:
         from models.project import Project
         for project in self.projects:
             project = fetch_data(Project.TABLE,project).__dict__
-            print({"name":project["name"],"due_date": project["due_date"], "completed":str(project["completed"])})
+            print({"name":project["name"],"due_date": project["_due_date"], "completed":str(project["completed"])})
 
     #delete user and remove links to projects and tasks
     def delete(self):
