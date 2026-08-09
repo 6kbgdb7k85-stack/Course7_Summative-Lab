@@ -150,6 +150,64 @@ def test_get_user_tasks_calls_users_assigned_projects(monkeypatch):
     assert calls == ["Alice"]
 
 
+def test_unassign_task_calls_user_remove_task(monkeypatch):
+    calls = []
+
+    fake_task = SimpleNamespace(id=7, title="Fix bug")
+    fake_user = SimpleNamespace(id=9, name="Alice")
+
+    class FakeUser:
+        TABLE = "users"
+
+        def __init__(self):
+            self.id = 9
+            self._name = "Alice"
+
+        def remove_task(self, task):
+            calls.append((task.title, self._name))
+
+    fake_user = FakeUser()
+    monkeypatch.setattr(main, "get_keys", lambda args: {"task_key": "title", "user_key": "_name"})
+    monkeypatch.setattr(main, "fetch_data", lambda table, lookup_key, lookup_value: {
+        main.Task.TABLE: fake_task,
+        main.User.TABLE: fake_user,
+    }.get(table))
+
+    args = SimpleNamespace(task="Fix bug", user="Alice")
+    main.unassign_task(args)
+
+    assert calls == [("Fix bug", "Alice")]
+
+
+def test_unassign_project_calls_project_remove_user(monkeypatch):
+    calls = []
+
+    fake_project = SimpleNamespace(id=3, name="Demo")
+    fake_user = SimpleNamespace(id=9, name="Alice")
+
+    class FakeProject:
+        TABLE = "projects"
+
+        def __init__(self):
+            self.id = 3
+            self.name = "Demo"
+
+        def remove_user(self, user):
+            calls.append((user.name, self.name))
+
+    fake_project = FakeProject()
+    monkeypatch.setattr(main, "get_keys", lambda args: {"project_key": "name", "user_key": "_name"})
+    monkeypatch.setattr(main, "fetch_data", lambda table, lookup_key, lookup_value: {
+        main.Project.TABLE: fake_project,
+        main.User.TABLE: fake_user,
+    }.get(table))
+
+    args = SimpleNamespace(user="Alice", project="Demo")
+    main.unassign_project(args)
+
+    assert calls == [("Alice", "Demo")]
+
+
 def test_main_dispatches_to_selected_command(monkeypatch):
     calls = []
     monkeypatch.setattr(sys, "argv", ["main.py", "entry", "projects", "1", "id"])

@@ -86,11 +86,15 @@ class Project:
 
     #remove user from project and vice versa
     def remove_user(self,user):
+        from models.user import User
         if user.id not in self.users:
             cprint(f"User '{user.name}' not part of project '{self.name}'","red")
             return
         self.users.remove(user.id)
+        user_isntance = fetch_data(User.TABLE,user.id)
+        user_isntance.remove_project(self)
         edit_data(Project.TABLE,self.id,{"users":self.users})
+        cprint(f"User '{user.name}' removed from project '{self.name}'","green") 
 
     #delete this project and remove its links to tasks and users
     def delete(self):
