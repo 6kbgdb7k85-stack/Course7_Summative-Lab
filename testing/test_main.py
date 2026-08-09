@@ -128,6 +128,27 @@ def test_get_user_tasks_calls_users_assigned_tasks(monkeypatch):
 
     assert calls == ["Alice"]
 
+def test_get_user_tasks_calls_users_assigned_tasks(monkeypatch):
+    calls = []
+
+    class FakeUser:
+        TABLE = "users"
+
+        def __init__(self):
+            self.id = 9
+            self._name = "Alice"
+
+        def get_assigned_projects(self):
+            calls.append(self._name)
+
+    fake_user = FakeUser()
+    monkeypatch.setattr(main, "fetch_data", lambda table, lookup_key, lookup_value: fake_user)
+
+    args = SimpleNamespace(user="Alice", id=False)
+    main.get_user_projects(args)
+
+    assert calls == ["Alice"]
+
 
 def test_main_dispatches_to_selected_command(monkeypatch):
     calls = []
