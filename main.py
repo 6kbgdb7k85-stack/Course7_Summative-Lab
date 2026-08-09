@@ -186,6 +186,14 @@ def main():
     assign_task_parser.add_argument("-pid",help="Use if arg 'project' is ID", action="store_true")
     assign_task_parser.set_defaults(func=assign_task)
 
+    #unassign_task
+    unassign_task_parser = subparser.add_parser("unassign-task",help="Remove Task from User")
+    unassign_task_parser.add_argument("task",help="Task Name or ID")
+    unassign_task_parser.add_argument("user",help="User Name or ID")
+    unassign_task_parser.add_argument("-tid",help="Use if arg 'task' is ID", action="store_true")
+    unassign_task_parser.add_argument("-uid",help="Use if arg 'user' is ID", action="store_true")
+    unassign_task_parser.set_defaults(func=unassign_task)
+
     #add_task
     add_task_parser = subparser.add_parser("add-task",help="Add Task to Project")
     add_task_parser.add_argument("task",help="Task Name of ID")
@@ -201,6 +209,14 @@ def main():
     assign_project_parser.add_argument("-uid",help="Use if arg 'user' is ID", action="store_true")
     assign_project_parser.add_argument("-pid",help="Use if arg 'project' is ID", action="store_true")
     assign_project_parser.set_defaults(func=assign_project)
+
+    #unassign_project
+    unassign_project_parser = subparser.add_parser("unassign-project",help="Remove User from Project")
+    unassign_project_parser.add_argument("user",help="User Name or ID")
+    unassign_project_parser.add_argument("project",help="Project Name or ID")
+    unassign_project_parser.add_argument("-uid",help="Use if arg 'user' is ID", action="store_true")
+    unassign_project_parser.add_argument("-pid",help="Use if arg 'project' is ID", action="store_true")
+    unassign_project_parser.set_defaults(func=unassign_project)
 
     #delete_entry
     delete_entry_parser = subparser.add_parser("delete-entry",help="Delete entry by Name or ID")

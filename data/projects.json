@@ -5,11 +5,11 @@
       0
     ],
     "users":[
-      0
+
     ],
     "completed":false,
     "id":0,
-    "_due_date":"01-02-30"
+    "_due_date":"01\/02\/2030"
   },
   {
     "name":"date_test",

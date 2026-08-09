@@ -22,4 +22,6 @@ Course 7 summative lab
 - add tasks to projects
 - add users to projects
 - assign users to tasks
+- remove tasks from users
+- remove users from projects
 - complete tasks and projects
