@@ -128,7 +128,7 @@ def test_get_user_tasks_calls_users_assigned_tasks(monkeypatch):
 
     assert calls == ["Alice"]
 
-def test_get_user_tasks_calls_users_assigned_tasks(monkeypatch):
+def test_get_user_tasks_calls_users_assigned_projects(monkeypatch):
     calls = []
 
     class FakeUser:
