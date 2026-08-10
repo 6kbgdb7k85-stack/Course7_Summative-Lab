@@ -91,7 +91,7 @@ def remove_task(args):
     task = fetch_data(table=Task.TABLE,lookup_key=keys["task_key"],lookup_value=parse_int(args.task))
     project = fetch_data(table=Project.TABLE,lookup_key=keys["project_key"],lookup_value=parse_int(args.project))
     if project and task:
-        project.remove_task_task(task)
+        project.remove_task(task)
 
 #remove entry from table
 def delete_entry(args):
